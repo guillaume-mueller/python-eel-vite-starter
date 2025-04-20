@@ -67,7 +67,7 @@ Tested versions:
 1. In `app/frontend/src/components/HelloWorld.vue`, add to `<script setup>`:
     ```js
     const eel = window.eel;
-    const msg_to_python = ref('');
+    const msg_to_python = ref("");
 
     function send_to_js(message) {
         console.log("Message received from Python: " + message);
@@ -85,7 +85,7 @@ Tested versions:
 
 1. Run from project root:
     ```sh
-    python app build-run
+    python app build-launch
     ```
 
 2. Test:
@@ -100,7 +100,7 @@ Tested versions:
     ```
 
 2. Test communication as in production mode.
-3. Modify the `<template>` in `HelloWorld.vue` to test the HMR feature.
+3. Modify `<template>` content in `HelloWorld.vue` to test the HMR feature.
 
 ## Known Issues
 
