@@ -1,18 +1,31 @@
-# Installation of an environment to use Vue.js via Vite with Eel
+# Installation of an environment to use Eel with Vite
 
-This procedure explains how to install an environment to use Vue.js via Vite with Eel. It allows both the use of Vite's Hot Module Replacement (HMR) feature for development and to build the project for production. It has only been tested to call a Python function from a Vue component and not the opposite.
+This procedure explains how to install an environment with a web framework via Vite communicating to a Python backend with Eel.
 
-It has been tested on Linux Mint 22.1 (based on Ubuntu 24.04) with Python 3.12.3.
+It allows both the use of Vite's Hot Module Replacement (HMR) feature for development and to build the project for production.
+
+It isn't able to call a JavaScript function from Python yet.
+
+It will use Vue.js but has also been tested with Svelte, which only needs minor obvious adjustments to work.
+
+Tested versions:
+- Linux Mint 22.1 (based on Ubuntu 24.04)
+- Python 3.12.3
+- Eel 0.18.1
+- Node.js 22.14.0
+- Vite 6.3.1
+- Vue.js 3.5.13
+- Svelte 5.23.1
 
 ## Installation
 
-Install Eel (tested version: 0.18.1):
+Install Eel:
 
 ```sh
 pip install eel
 ```
 
-Create the Vite template (tested version: 6.3.1):
+Create the Vite template:
 
 ```sh
 cd app
@@ -41,17 +54,25 @@ In `app/frontend/vite.config.js`, replace the `export default defineConfig […]
 
 ```js
 export default defineConfig(({ command }) => ({
-  plugins: [vue()],
-  ...(command === 'serve' && {
-    server: {
-      proxy: {
-        '/eel': {
-          target: 'http://localhost:8000',  // "host" and "port_eel" in __main__.py
-          ws: true
+    plugins: [vue()],
+    build: {
+        outDir: "build",
+    },
+    ...(command === 'serve' && {  // dev mode config
+        server: {
+            host: 'localhost',
+            port: 5173,
+            proxy: {
+                '/eel': {
+                    target: {
+                        host: 'localhost',
+                        port: 8000
+                    },
+                    ws: true  // WebSocket
+                }
+            }
         }
-      }
-    }
-  })
+    })
 }))
 ```
 
@@ -74,7 +95,7 @@ Still in `app/frontend/src/components/HelloWorld.vue`, add the following line wi
 Try to run the app in production mode with the following command (from the root directory of the project):
 
 ```sh
-python app --mode=prod
+python app --mode=build-run
 ```
 
 Click on the button `Call Python` and check that the terminal displays `Hello !`.
