@@ -9,8 +9,9 @@ from pathlib import Path
 APP_DIR = Path(__file__).resolve().parent
 WEB_FILES_PATH = APP_DIR / 'frontend'
 WEB_BUILD_PATH = WEB_FILES_PATH / 'build'
-VITE_SERVER_HOST = 'localhost'
-VITE_SERVER_PORT = 5173
+WEB_DEV_PATH = WEB_FILES_PATH / 'src'
+VITE_DEV_SERVER_HOST = 'localhost'
+VITE_DEV_SERVER_PORT = 5173
 EEL_SERVER_HOST = 'localhost'
 EEL_SERVER_PORT = 8000
 
@@ -37,14 +38,14 @@ if args.mode == 'install':
     )
 
 elif args.mode == 'dev':
-    print("Starting npm process...")
+    print("Starting Node.js process...")
     npm_process = subprocess.Popen(
         "npm run dev".split(),
         cwd=WEB_FILES_PATH
     )
 
     def on_eel_close(page: str, sockets: eel.types.WebSocketT):
-        print("Closing npm process...")
+        print("Closing Node.js process...")
         process = psutil.Process(npm_process.pid)
         for child in process.children(recursive=True):
             child.terminate()
@@ -53,11 +54,12 @@ elif args.mode == 'dev':
         exit()
 
     print("Starting Eel...")
-    eel.init("dummy")
+    eel.init(WEB_DEV_PATH)
+    eel.send_to_js("Hello from Python !")
     eel.start(
         {
-            "host": VITE_SERVER_HOST,
-            "port": VITE_SERVER_PORT
+            "host": VITE_DEV_SERVER_HOST,
+            "port": VITE_DEV_SERVER_PORT
         },
         host=EEL_SERVER_HOST,
         port=EEL_SERVER_PORT,
@@ -78,6 +80,7 @@ elif args.mode in ('build', 'run', 'build-run'):
 
     print("Starting Eel...")
     eel.init(WEB_BUILD_PATH)
+    eel.send_to_js("Hello from Python !")
     eel.start(
         'index.html',
         host=EEL_SERVER_HOST,

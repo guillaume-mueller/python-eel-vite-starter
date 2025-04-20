@@ -1,12 +1,10 @@
-# Installation of an environment to use Eel with Vite
+# A start template to use Eel with Vite
 
-This procedure explains how to install an environment with a web framework via Vite communicating to a Python backend with Eel.
+This procedure helps to start an environment with a web framework via Vite communicating to a Python backend with Eel.
 
-It allows both the use of Vite's Hot Module Replacement (HMR) feature for development and to build the project for production.
+It allows both the use of Vite's Hot Module Replacement (HMR) feature for development and to build the project for production, with bidirectional communication working in both modes.
 
-It isn't able to call a JavaScript function from Python yet.
-
-It will use Vue.js but has also been tested with Svelte, which only needs minor obvious adjustments to work.
+It will use Vue.js but has also been tested with Svelte, which only needs the obvious adjustments to work.
 
 Tested versions:
 - Linux Mint 22.1 (based on Ubuntu 24.04)
@@ -50,14 +48,12 @@ In `app/frontend/index.html`, add the following line within the `<head>` tag:
 <script type="text/javascript" src="/eel.js"></script>
 ```
 
-In `app/frontend/vite.config.js`, replace the `export default defineConfig […]` call by the following (`command === 'serve'` makes it only applied for the development mode):
+In `app/frontend/vite.config.js`, replace the `export default defineConfig […]` call by the following:
 
 ```js
 export default defineConfig(({ command }) => ({
     plugins: [vue()],
-    build: {
-        outDir: "build",
-    },
+    build: { outDir: "build" },
     ...(command === 'serve' && {  // dev mode config
         server: {
             host: 'localhost',
@@ -73,7 +69,7 @@ export default defineConfig(({ command }) => ({
             }
         }
     })
-}))
+}));
 ```
 
 ## Basic usage and test
@@ -82,12 +78,20 @@ In `app/frontend/src/components/HelloWorld.vue`, add the following line within t
 
 ```js
 const eel = window.eel;
+
+const msg_to_python = ref('');
+
+function send_to_js(message) {
+    console.log("Message received from Python: " + message);
+}
+window.eel.expose(send_to_js, 'send_to_js');  // ⚠️ must be called via `window.` and must get the name repeated as a string because the production build changes the functions name
 ```
 
 Still in `app/frontend/src/components/HelloWorld.vue`, add the following line within the `<template>` tag:
 
 ```html
-<button @click="eel.hello()">Call Python</button>
+<input type="text" placeholder="Message to Python" v-model="msg_to_python"/>
+<button @click="eel.send_to_python(msg_to_python)">Send to Python</button>
 ```
 
 ### Production mode
@@ -95,10 +99,10 @@ Still in `app/frontend/src/components/HelloWorld.vue`, add the following line wi
 Try to run the app in production mode with the following command (from the root directory of the project):
 
 ```sh
-python app --mode=build-run
+python app
 ```
 
-Click on the button `Call Python` and check that the terminal displays `Hello !`.
+Test to send a message from JS to Python and check in DevTools (F12) that the message from Python to JS is received.
 
 ### Development mode
 
@@ -108,10 +112,12 @@ Try to run the app in development mode with the following command:
 python app --mode=dev
 ```
 
-Click on the button `Call Python` and check that the terminal displays `Hello !`.
+Test the same bidirectional communication as in production mode.
 
 In the file `app/frontend/src/components/HelloWorld.vue`, modify something within the `<template>` tag and check that the changes are applied in the Eel window without having to restart the program.
 
-## TODO
+## Notes
 
-- [ ] Call a JavaScript function from Python.
+As of Eel 0.18.1, [there's a memory leak](https://github.com/python-eel/Eel/issues/757) making that every data communicated from Python to JS remains in memory. To avoid it, one can apply [this fix](https://github.com/python-eel/Eel/pull/760).
+
+Regarding performances for streaming, if the data is not adapted to JSON, one can use Flask-SocketIO (or maybe only SocketIO) very easily to stream data via WebSocket in binary format with the same kind of syntax as Eel.
