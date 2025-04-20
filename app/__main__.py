@@ -1,10 +1,12 @@
-import eel_api
+import backend
 import eel
 import psutil
 import subprocess
 import argparse
+from pathlib import Path
 
-WEB_FILES_PATH = 'vite-project'
+APP_DIR = Path(__file__).resolve().parent
+WEB_FILES_PATH = APP_DIR / 'frontend'
 
 parser = argparse.ArgumentParser()
 parser.add_argument(

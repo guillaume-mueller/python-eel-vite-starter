@@ -1,3 +1,4 @@
+.gitignore
 .venv
-vite-project
+app/frontend
 __pycache__
