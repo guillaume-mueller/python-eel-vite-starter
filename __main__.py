@@ -21,11 +21,8 @@ if __name__ == '__main__':
             "npm run dev".split(),
             cwd=WEB_FILES_PATH
         )
-        print(
-            "It can take a few seconds to launch the eel window, please wait..."
-        )
 
-        eel.init(WEB_FILES_PATH)
+        eel.init("dummy")
 
         def on_eel_close(page, sockets):
             print("Closing npm process...")
