@@ -1,18 +1,18 @@
 # Installation of an environnement to use Vue.js via Vite with eel
 
-This procedure explains how to install an environnement to use Vue.js via Vite with eel. It allows both to use the hot reload feature of Vite and to build the project for production. It has only been tested to call a Python function from a Vue component and not the opposite.
+This procedure explains how to install an environnement to use Vue.js via Vite with Eel. It allows both to use the hot reload feature of Vite and to build the project for production. It has only been tested to call a Python function from a Vue component and not the opposite.
 
-It has been tested on Linux Mint 22 (based on Ubuntu 24.04).
+It has been tested on Linux Mint 22.1 (based on Ubuntu 24.04) with Python 3.12.3.
 
 ## Installation
 
-Install eel (tested version: 0.18.1):
+Install Eel (tested version: 0.18.1):
 
 ```sh
 pip install eel
 ```
 
-Create the vite template (tested version: 6.1.1):
+Create the vite template (tested version: 6.3.1):
 
 ```sh
 npm create vite@latest
@@ -41,18 +41,18 @@ In `vite-project/vite.config.js`, replace the `export default defineConfig […]
 
 ```js
 export default defineConfig(({ command }) => ({
-  plugins: [vue()],
+    plugins: [vue()],
 
-  ...(command === 'serve' && {
-    server: {
-      proxy: {
-        '/eel': {
-          target: 'http://localhost:8000',  // "host" and "port_eel" in __main__.py
-          ws: true
+    ...(command === 'serve' && {
+        server: {
+            proxy: {
+                '/eel': {
+                    target: 'http://localhost:8000',  // "host" and "port_eel" in __main__.py
+                    ws: true
+                }
+            }
         }
-      }
-    }
-  })
+    })
 }))
 ```
 
@@ -82,7 +82,7 @@ Click on the button `Call Python` and check that the terminal displays `Hello !`
 
 ### Development mode
 
-Try to run the program in development mode with the following command (it can takes up to about 10 seconds to open the eel window):
+Try to run the program in development mode with the following command:
 
 ```sh
 python __main__.py --mode=dev
@@ -90,9 +90,8 @@ python __main__.py --mode=dev
 
 Click on the button `Call Python` and check that the terminal displays `Hello !`.
 
-In the file `vite-project/src/components/HelloWorld.vue`, modify something within the `<template>` tag and check that the changes are applied in the eel window without having to restart the program.
+In the file `vite-project/src/components/HelloWorld.vue`, modify something within the `<template>` tag and check that the changes are applied in the Eel window without having to restart the program.
 
 ## TODO
 
 - [ ] Call a JavaScript function from Python.
-- [ ] Speed up the opening of the eel window in development mode.
