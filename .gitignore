@@ -1,4 +1,0 @@
-.gitignore
-.venv
-app/frontend
-__pycache__
