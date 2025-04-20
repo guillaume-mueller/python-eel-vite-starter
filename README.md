@@ -6,7 +6,7 @@ Key features:
 - Development mode with Vite's Hot Module Replacement (HMR)
 - Bidirectional communication in both development and production modes
 
-While this template uses Vue.js, there's a similar one for Svelte available in another branch.
+While this template uses Svelte, there's a similar one for Vue.js available in another branch.
 
 Tested versions:
 - Linux Mint 22.1 (based on Ubuntu 24.04)
@@ -14,7 +14,7 @@ Tested versions:
 - Eel 0.18.1
 - Node.js 22.14.0
 - Vite 6.3.1
-- Vue.js 3.5.13
+- Svelte 5.23.1
 
 ## Setup
 
@@ -31,7 +31,7 @@ Tested versions:
 
     Choose :
     - Project name: `frontend`
-    - Framework: `Vue`
+    - Framework: `Svelte`
     - Variant: `JavaScript`
 
 3. In `app/frontend/index.html`, add to `<head>`:
@@ -42,7 +42,7 @@ Tested versions:
 4. Update `app/frontend/vite.config.js`:
     ```js
     export default defineConfig(({ command }) => ({
-        plugins: [vue()],
+        plugins: [svelte()],
         build: { outDir: "build" },
         ...(command === 'serve' && {  // dev mode config
             server: {
@@ -64,10 +64,10 @@ Tested versions:
 
 ## Testing Communication
 
-1. In `app/frontend/src/components/HelloWorld.vue`, add to `<script setup>`:
+1. In `app/frontend/src/App.svelte`, add to `<script>`:
     ```js
     const eel = window.eel;
-    const msg_to_python = ref('');
+    let msg_to_python = $state("");
 
     function send_to_js(message) {
         console.log("Message received from Python: " + message);
@@ -77,15 +77,15 @@ Tested versions:
 
 2. Add to `<template>`:
     ```html
-    <input type="text" placeholder="Message to Python" v-model="msg_to_python"/>
-    <button @click="eel.send_to_python(msg_to_python)">Send to Python</button>
+    <input type="text" bind:value={msg_to_python} placeholder="Message to Python" />
+    <button onclick={() => eel.send_to_python(msg_to_python)}>Call Python</button>
     ```
 
 ### Production mode
 
-1. Run from project root:
+1. Launch from project root:
     ```sh
-    python app build-run
+    python app build-launch
     ```
 
 2. Test:
@@ -100,7 +100,7 @@ Tested versions:
     ```
 
 2. Test communication as in production mode.
-3. Modify the `<template>` in `HelloWorld.vue` to test the HMR feature.
+3. Modify `<main>` content in `App.svelte` to test the HMR feature.
 
 ## Known Issues
 

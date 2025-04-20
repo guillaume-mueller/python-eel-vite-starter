@@ -9,7 +9,7 @@ WEB_FILES_PATH = THIS_FILE_PATH / 'frontend'
 WEB_INSTALLS_PATH = WEB_FILES_PATH / 'node_modules'
 WEB_BUILD_PATH = WEB_FILES_PATH / 'build'
 WEB_DEV_PATH = WEB_FILES_PATH / 'src'
-WEB_FILES_EXTENSIONS = ('.vue', '.js')  # To search Eel-exposed functions
+WEB_FILES_EXTENSIONS = ('.svelte', '.js')  # To search Eel-exposed functions
 
 VITE_DEV_SERVER_HOST = 'localhost'
 VITE_DEV_SERVER_PORT = 5173
