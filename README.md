@@ -74,7 +74,7 @@ Still in `app/frontend/src/components/HelloWorld.vue`, add the following line wi
 Try to run the app in production mode with the following command (from the root directory of the project):
 
 ```sh
-python -m app --mode=prod
+python app --mode=prod
 ```
 
 Click on the button `Call Python` and check that the terminal displays `Hello !`.
@@ -84,7 +84,7 @@ Click on the button `Call Python` and check that the terminal displays `Hello !`
 Try to run the app in development mode with the following command:
 
 ```sh
-python -m app --mode=dev
+python app --mode=dev
 ```
 
 Click on the button `Call Python` and check that the terminal displays `Hello !`.
