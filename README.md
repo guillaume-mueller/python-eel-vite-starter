@@ -16,18 +16,19 @@ While this template uses [Svelte](https://svelte.dev), there's a similar one for
 - Linux Mint 22.1 (based on Ubuntu 24.04)
 - Python 3.12.3
 - Eel 0.18.1
+- Chromium 135.0.7049.95
 - Node.js 22.14.0
 - Vite 6.3.1
 - Svelte 5.23.1
 
 ## Setup
 
-1. Install Eel:
+1. Install Python dependencies:
     ```sh
-    pip install eel
+    pip install --requirement=requirements.txt
     ```
 
-2. Create the Vite template:
+2. Create the Vite template with [Node.js package manager](https://nodejs.org/fr/download):
     ```sh
     cd app
     npm create vite@latest
@@ -89,7 +90,7 @@ While this template uses [Svelte](https://svelte.dev), there's a similar one for
 
 1. Launch from project root:
     ```sh
-    python app build-launch
+    python -m app prod
     ```
 
 2. Test:
@@ -100,7 +101,7 @@ While this template uses [Svelte](https://svelte.dev), there's a similar one for
 
 1. Run from project root:
     ```sh
-    python app dev
+    python -m app dev
     ```
 
 2. Test communication as in production mode.
