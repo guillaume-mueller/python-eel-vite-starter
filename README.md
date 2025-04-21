@@ -1,14 +1,18 @@
-# Eel with Vite starter template
+# Eel with Vite starter template, Svelte variant
 
-A starter template for creating web applications using Vite with Python Eel backend integration.
+A starter template for creating a GUI frontend with a JavaScript web framework via [Vite](https://vite.dev) for a Python backend via [Eel](https://pypi.org/project/Eel).
 
-Key features:
+While this template uses [Svelte](https://svelte.dev), there's a similar one for Vue.js available in another branch.
+
+## Key features
+
+- Structured as a launchable Python package with some process managing in its `__main__.py` to automate the interoperability between Eel and Node.js
 - Development mode with Vite's Hot Module Replacement (HMR)
 - Bidirectional communication in both development and production modes
+- Focused on understanding how this works to keep full control instead of packaging a pretended solution
 
-While this template uses Svelte, there's a similar one for Vue.js available in another branch.
+## Tested versions
 
-Tested versions:
 - Linux Mint 22.1 (based on Ubuntu 24.04)
 - Python 3.12.3
 - Eel 0.18.1
@@ -94,7 +98,7 @@ Tested versions:
 
 ### Development mode
 
-1. Start dev server:
+1. Run from project root:
     ```sh
     python app dev
     ```
@@ -106,4 +110,4 @@ Tested versions:
 
 1. **Memory leak**: Eel 0.18.1 has a [memory leak](https://github.com/python-eel/Eel/issues/757) for Python exposed function. Apply [this fix](https://github.com/python-eel/Eel/pull/760) if needed.
 
-2. **Performance**: For sustained streaming, the JSON constrain of Eel may be a bottleneck. Consider using Flask-SocketIO for binary format with a similar ease of use.
+2. **Performance**: For sustained data streaming, the JSON constrain of Eel may be a bottleneck. Consider using [Flask-SocketIO](https://pypi.org/project/Flask-SocketIO) for binary format with a similar ease of use.
