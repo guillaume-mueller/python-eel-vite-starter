@@ -6,7 +6,7 @@ While this template uses [Vue.js](https://vuejs.org), there's a similar one for 
 
 ## Key features
 
-- Structured as a launchable Python package with some process managing in its `__main__.py` to automate the interoperability between Eel and Node.js
+- Structured as a launchable Python package with some simple process managing to automate the interoperability between Eel and Node.js
 - Development mode with Vite's Hot Module Replacement (HMR)
 - Bidirectional communication in both development and production modes
 - Focused on understanding how this works to keep full control instead of packaging a pretended solution
