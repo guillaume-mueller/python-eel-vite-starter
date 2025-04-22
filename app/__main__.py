@@ -41,4 +41,7 @@ def prod():
     launchers.launch_prod_mode()
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except launchers.NpmError as exception:
+        print(f"Error: {exception}")

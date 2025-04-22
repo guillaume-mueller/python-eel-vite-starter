@@ -18,8 +18,8 @@ While this template uses [Svelte](https://svelte.dev), there's a similar one for
 - Eel 0.18.1
 - Chromium 135.0.7049.95
 - Node.js 22.14.0
-- Vite 6.3.1
-- Svelte 5.23.1
+- Vite 6.3.2
+- Svelte 5.28.2
 
 ## Setup
 
@@ -46,25 +46,32 @@ While this template uses [Svelte](https://svelte.dev), there's a similar one for
 
 4. Update `app/frontend/vite.config.js`:
     ```js
-    export default defineConfig(({ command }) => ({
-        plugins: [svelte()],
-        build: { outDir: "build" },
-        ...(command === 'serve' && {  // dev mode config
-            server: {
-                host: 'localhost',
-                port: 5173,
-                proxy: {
-                    '/eel': {
-                        target: {
-                            host: 'localhost',
-                            port: 8000
-                        },
-                        ws: true  // WebSocket
+    import { defineConfig, loadEnv } from 'vite'
+    import { svelte } from '@sveltejs/vite-plugin-svelte'
+
+    // https://vite.dev/config/
+    export default defineConfig(({ command, mode }) => {
+        const env = loadEnv(mode, './..', '');
+        return {
+            plugins: [svelte()],
+            build: { outDir: env.BUILD_DIR },
+            ...(command === 'serve' && {  // dev mode config
+                server: {
+                    host: env.DEV_HOST,
+                    port: Number(env.DEV_PORT),
+                    proxy: {
+                        '/eel': {
+                            ws: true,  // WebSocket
+                            target: {
+                                host: env.EEL_HOST,
+                                port: env.EEL_PORT
+                            }
+                        }
                     }
                 }
-            }
-        })
-    }));
+            })
+        };
+    });
     ```
 
 ## Testing Communication
