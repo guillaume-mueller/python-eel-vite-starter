@@ -1,4 +1,6 @@
 eel==0.18.1
+python-dotenv
+requests
 rich
 click
 psutil
